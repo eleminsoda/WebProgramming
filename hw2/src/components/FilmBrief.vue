@@ -100,6 +100,7 @@ export default {
   height: 200px;
   width: 500px;
   margin: 10px auto;
+  position: relative;
 }
 .poster {
   height: 180px;
@@ -111,7 +112,10 @@ export default {
   width: 135px;
 }
 .info {
-  float: right;
+  position: absolute;
+  transform: translate(0, -50%);
+  top: 50%;
+  right: 0;
   width: 65%;
   vertical-align: center;
   font-family: "Courier New", Courier, monospace;
