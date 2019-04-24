@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
     <film-brief v-for="film in films" v-bind:key="film._id" v-bind:film="film"></film-brief>
   </div>
 </template>
