@@ -1,8 +1,19 @@
 <template>
   <div id="app">
-    <film-brief v-for="film in filmList[pageIndex-1]" v-bind:key="film._id" v-bind:film="film"></film-brief>
-    <div class="buttons">
-      <jump-button class="button" v-for="index in buttonIndexList" :key="index.id" v-bind:index="index" v-on:jump-page="pageIndex = index.id"></jump-button>
+    <div v-if="this.detailPageIndex != -1">
+      <film-brief v-for="film in filmList[pageIndex-1]" v-bind:key="film._id" v-bind:film="film"></film-brief>
+      <div class="buttons">
+        <jump-button
+          class="button"
+          v-for="index in buttonIndexList"
+          :key="index.id"
+          v-bind:index="index"
+          v-on:jump-page="pageIndex = index.id"
+        ></jump-button>
+      </div>
+    </div>
+    <div v-else>
+      <page-detail v-bind:film="this.films[0]"></page-detail>
     </div>
   </div>
 </template>
@@ -11,6 +22,7 @@
 import FilmBrief from "./components/FilmBrief.vue";
 import films from "./assets/films.json";
 import JumpButton from "./components/JumpButton.vue";
+import PageDetail from "./components/DetailPage.vue";
 
 const GroupCount = 10;
 
@@ -20,12 +32,14 @@ export default {
     return {
       films,
       pageIndex: 1,
-      pageCount: Math.ceil(films.length / GroupCount)
+      pageCount: Math.ceil(films.length / GroupCount),
+      detailPageIndex: -1
     };
   },
   components: {
     FilmBrief,
-    JumpButton
+    JumpButton,
+    PageDetail
   },
   computed: {
     filmList: function() {
@@ -64,12 +78,12 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.buttons{
+.buttons {
   width: 300px;
   margin: 50px auto;
   padding-bottom: 100px;
 }
-.button{
+.button {
   float: left;
 }
 </style>
