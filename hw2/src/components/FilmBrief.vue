@@ -5,7 +5,17 @@
     </div>
 
     <div class="info">
-      <div class="heading" v-html="title"></div>
+      <router-link
+        :to="{
+        name: 'detail',
+        params: {
+          id: index
+        }
+        }"
+      >
+        <div class="heading" v-html="title"></div>
+      </router-link>
+
       <div class="ratings">{{film.rating.average}}</div>
       <div class="ontime">{{pubdate}}</div>
       <div class="type">{{genres}}</div>
@@ -18,7 +28,7 @@ import errorImg from "../assets/imgErr.jpg";
 
 export default {
   name: "FilmBrief",
-  props: ["film"],
+  props: ["film", "index"],
   data: function() {
     return {
       imgSrc: "",
@@ -44,10 +54,10 @@ export default {
   },
   created: function() {
     this.loadImg(
-      (response) => {
+      response => {
         this.imgSrc = response.src;
       },
-      (reject) => {
+      reject => {
         console.log("图片加载失败");
         this.imgSrc = this.imgErrSrc;
       }

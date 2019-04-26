@@ -20,16 +20,19 @@
 
 <script>
 import errorImg from "../assets/imgErr.jpg";
+import films from "../assets/films.json";
 
 export default {
   name: "DetailPage",
-  props: ["film"],
+  props: [],
   data: function() {
     return {
+      id_: this.$route.params.id,
+      film: {},
       imgSrc: "",
       imgErrSrc: errorImg,
-      duration: "片长：" + this.film.duration + "分钟",
-      summary: "简介：" + this.film.summary
+      duration: "",
+      summary: ""
     };
   },
   methods: {
@@ -61,6 +64,9 @@ export default {
     }
   },
   created: function() {
+    this.film = films[this.$route.params.id];
+    this.duration = "片长：" + this.film.duration + "分钟";
+    this.summary = "简介：" + this.film.summary;
     this.loadImg(
       response => {
         this.imgSrc = response.src;
@@ -122,4 +128,37 @@ export default {
 </script>
 
 <style>
+.detail-page {
+  width: 600px;
+  height: 300px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.poster,
+.poster img {
+  width: 150px;
+  height: 250px;
+}
+
+.details {
+  position: absolute;
+  left: 180px;
+  top: 0px;
+  width: 420px;
+  text-align: left;
+}
+
+.details ul {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.details ul li {
+  margin-bottom: 5px;
+}
+#title {
+  font-size: 16pt;
+  font-weight: bold;
+}
 </style>
