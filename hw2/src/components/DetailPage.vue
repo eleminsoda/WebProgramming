@@ -36,7 +36,7 @@ export default {
     };
   },
   methods: {
-    loadImg(resolve, reject) {
+    loadImg: function(resolve, reject) {
       let originImgSrc = this.film.poster;
       let img = new Image();
       img.src = originImgSrc;
@@ -51,7 +51,7 @@ export default {
         reject(e);
       };
     },
-    getList(name, list) {
+    getList: function(name, list) {
       let result = "";
       result += name;
       for (let i = 0; i < list.length; i++) {
