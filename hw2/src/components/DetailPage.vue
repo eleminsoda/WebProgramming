@@ -12,7 +12,7 @@
         <li id="genres">{{genres}}</li>
         <li id="duration">{{duration}}</li>
         <li id="pubdate">{{pubdate}}</li>
-        <li id="summary"></li>
+        <li id="summary">{{summary}}</li>
       </ul>
     </div>
   </div>
@@ -130,9 +130,10 @@ export default {
 <style>
 .detail-page {
   width: 600px;
-  height: 300px;
   margin: 0 auto;
+  margin-bottom: 50px;
   position: relative;
+  overflow: inherit;
 }
 
 .poster,
@@ -160,5 +161,8 @@ export default {
 #title {
   font-size: 16pt;
   font-weight: bold;
+}
+#summary{
+  margin-bottom: 50px;
 }
 </style>
