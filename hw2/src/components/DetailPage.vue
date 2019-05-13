@@ -20,7 +20,8 @@
 
 <script>
 import errorImg from "../assets/imgErr.jpg";
-import films from "../assets/films.json";
+// import films from "../assets/films.json";
+
 
 export default {
   name: "DetailPage",
