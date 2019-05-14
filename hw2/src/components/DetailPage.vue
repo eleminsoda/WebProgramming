@@ -20,6 +20,7 @@
 
 <script>
 import errorImg from "../assets/imgErr.jpg";
+let mongodb = require("../mongodb.js");
 // import films from "../assets/films.json";
 
 
@@ -65,7 +66,8 @@ export default {
     }
   },
   created: function() {
-    this.film = films[this.$route.params.id];
+    // this.film = films[this.$route.params.id];
+    this.film = mongodb.get_one_film(this.$route.params.id);
     this.duration = "片长：" + this.film.duration + "分钟";
     this.summary = "简介：" + this.film.summary;
     this.loadImg(

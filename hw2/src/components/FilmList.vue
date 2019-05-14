@@ -30,8 +30,10 @@
 
 <script>
 import FilmBrief from "../components/FilmBrief.vue";
-import films from "../assets/films.json";
+// import films from "../assets/films.json";
 import JumpButton from "../components/JumpButton.vue";
+
+let mongodb = require("../mongodb.js");
 
 const GroupCount = 10;
 
@@ -39,7 +41,7 @@ export default {
   name: "FilmList",
   data: function() {
     return {
-      films,
+      films: [],
       pageIndex: 1,
       filmToSearch: "",
       searchedFilm: 0,
@@ -74,6 +76,10 @@ export default {
       }
       return indexes;
     }
+  },
+  created: function() {
+    this.films = mongodb.get_films(1);
+    // this.pageCount = Math.ceil(films.length / GroupCount)
   },
   methods: {
     seachFilm: function() {
