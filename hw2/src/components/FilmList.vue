@@ -10,9 +10,9 @@
     </div>
     <div v-else>
       <film-brief
-        v-for="(film, index) in filmList[pageIndex-1]"
+        v-for="(film, index) in films"
         v-bind:key="film._id"
-        v-bind:index="index + groupCount*(pageIndex-1)"
+        v-bind:index="film._id"
         v-bind:film="film"
       ></film-brief>
       <div class="buttons">
@@ -45,7 +45,7 @@ export default {
       pageIndex: 1,
       filmToSearch: "",
       searchedFilm: 0,
-      pageCount: Math.ceil(films.length / GroupCount),
+      pageCount: 0,
       groupCount: GroupCount
     };
   },
@@ -54,20 +54,6 @@ export default {
     JumpButton
   },
   computed: {
-    filmList: function() {
-      let finalList = [];
-      for (let i = 0; i < this.pageCount; i++) {
-        let temp = 0;
-        if (i < this.pageCount - 1) {
-          temp = this.films.slice(i * GroupCount, (i + 1) * GroupCount);
-          finalList.push(temp);
-        } else {
-          temp = this.films.slice(i * GroupCount);
-          finalList.push(temp);
-        }
-      }
-      return finalList;
-    },
     buttonIndexList: function() {
       let indexes = [];
       for (let i = 1; i <= this.pageCount; i++) {
@@ -78,45 +64,20 @@ export default {
     }
   },
   created: function() {
-    this.films = mongodb.get_films(1);
-    // this.pageCount = Math.ceil(films.length / GroupCount)
+    this.films = mongodb.get_films(this.pageIndex);
+    this.pageCount = Math.ceil(10000 / GroupCount)
   },
   methods: {
     seachFilm: function() {
-      let found = false;
-      let index = -1;
-      for (let i = 0; i < films.length; i++) {
-        let film = films[i];
-        if (this.matchingFilmName(film, this.filmToSearch)) {
-          found = true;
-          index = i;
-          break;
-        }
-      }
-      if (found) {
-        this.$router.push({ name: "detail", params: { id: index } });
+      let _id = mongodb.search_film(this.filmToSearch);
+      if (_id != null) {
+        this.$router.push({ name: "detail", params: { id: _id } });
       } else {
         this.searchedFilm = -1;
       }
     },
     returnToPage: function() {
       this.searchedFilm = 0;
-    },
-    matchingFilmName: function(film, inputName) {
-      let originalTitle = "";
-      originalTitle += film.title;
-      let index = originalTitle.indexOf(" ");
-      let input = originalTitle[index - 1];
-      let isPunc =
-        (input >= "A" && input <= "Z") || (input >= "a" && input <= "z");
-      if (!isPunc) {
-        return (
-          originalTitle.slice(0, index) == inputName ||
-          originalTitle.slice(index + 1) == inputName
-        );
-      } else {
-        return originalTitle == inputName;
-      }
     }
   }
 };
