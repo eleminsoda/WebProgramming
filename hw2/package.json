@@ -10,6 +10,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
+    "cors": "^2.8.5",
+    "element-ui": "^2.8.2",
     "express": "^4.16.4",
     "mongodb": "^3.2.4",
     "vue": "^2.6.10"

@@ -10,19 +10,24 @@
     </div>
     <div v-else>
       <film-brief
-        v-for="(film, index) in films"
+        v-for="film in films"
         v-bind:key="film._id"
         v-bind:index="film._id"
         v-bind:film="film"
       ></film-brief>
       <div class="buttons">
-        <jump-button
+        <!-- <jump-button
           class="button"
           v-for="index in buttonIndexList"
           :key="index.id"
           v-bind:index="index"
           v-on:jump-page="pageIndex = index.id"
-        ></jump-button>
+        ></jump-button> -->
+        <el-pagination
+          layout='prev, pager, next'
+          v-on:jump-page="pageIndex = current-page"
+          :page-count='1000'
+        ></el-pagination>
       </div>
     </div>
   </div>
@@ -30,10 +35,8 @@
 
 <script>
 import FilmBrief from "../components/FilmBrief.vue";
-// import films from "../assets/films.json";
 import JumpButton from "../components/JumpButton.vue";
 
-// let mongodb = require("../mongodb.js");
 import service from "../services/GetService.js";
 
 const GroupCount = 10;
@@ -64,9 +67,13 @@ export default {
       return indexes;
     }
   },
-  created: async function() {
-    console.log(typeof(service.get_films));
-    this.films = await service.get_films(this.pageIndex);
+  created: function() {
+    service.get_films(this.pageIndex).then(items => {
+      console.log("in the then loop");
+      console.log("items: " + items);
+      this.films = items;
+    });
+    console.log(this.films);
     this.pageCount = Math.ceil(10000 / GroupCount);
   },
   methods: {

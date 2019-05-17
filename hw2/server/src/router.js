@@ -1,6 +1,7 @@
 const db = require('./mongodb');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const router = express.Router();
 const app = express();
@@ -9,6 +10,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+app.use(cors);
 
 app.get('/get_films', (req, res) => {
     let page_index = req.query['film_index'];

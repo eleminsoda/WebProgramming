@@ -7,7 +7,6 @@
 <script>
 import FilmList from "./components/FilmList.vue";
 import DetailPage from "./components/DetailPage.vue";
-import VueRouter from "vue-router";
 
 export default {
   name: "app",
