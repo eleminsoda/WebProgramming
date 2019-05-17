@@ -33,7 +33,8 @@ import FilmBrief from "../components/FilmBrief.vue";
 // import films from "../assets/films.json";
 import JumpButton from "../components/JumpButton.vue";
 
-let mongodb = require("../mongodb.js");
+// let mongodb = require("../mongodb.js");
+import service from "../services/GetService.js";
 
 const GroupCount = 10;
 
@@ -63,13 +64,14 @@ export default {
       return indexes;
     }
   },
-  created: function() {
-    this.films = mongodb.get_films(this.pageIndex);
-    this.pageCount = Math.ceil(10000 / GroupCount)
+  created: async function() {
+    console.log(typeof(service.get_films));
+    this.films = await service.get_films(this.pageIndex);
+    this.pageCount = Math.ceil(10000 / GroupCount);
   },
   methods: {
-    seachFilm: function() {
-      let _id = mongodb.search_film(this.filmToSearch);
+    seachFilm: async function() {
+      let _id = await service.search_film(this.filmToSearch);
       if (_id != null) {
         this.$router.push({ name: "detail", params: { id: _id } });
       } else {

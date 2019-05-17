@@ -8,9 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "core-js": "^2.6.5",
-    "dns": "^0.2.2",
-    "module": "^1.2.5",
+    "express": "^4.16.4",
     "mongodb": "^3.2.4",
     "vue": "^2.6.10"
   },

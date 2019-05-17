@@ -20,9 +20,9 @@
 
 <script>
 import errorImg from "../assets/imgErr.jpg";
-let mongodb = require("../mongodb.js");
+import service from "../services/GetService.js";
+// let mongodb = require("../mongodb.js");
 // import films from "../assets/films.json";
-
 
 export default {
   name: "DetailPage",
@@ -65,9 +65,9 @@ export default {
       return result;
     }
   },
-  created: function() {
+  created: async function() {
     // this.film = films[this.$route.params.id];
-    this.film = mongodb.get_one_film(this.$route.params.id);
+    this.film = await service.get_one_film(this.$route.params.id);
     this.duration = "片长：" + this.film.duration + "分钟";
     this.summary = "简介：" + this.film.summary;
     this.loadImg(
@@ -165,7 +165,7 @@ export default {
   font-size: 16pt;
   font-weight: bold;
 }
-#summary{
+#summary {
   margin-bottom: 50px;
 }
 </style>
