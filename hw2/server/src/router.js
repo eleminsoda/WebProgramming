@@ -10,7 +10,16 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-app.use(cors);
+// app.use(cors);
+
+var allowCrossDomain = function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*'); //自定义中间件，设置跨域需要的响应头。
+    next();
+};
+
+app.use(allowCrossDomain); //运用跨域的中间件
+app.use(bodyParser.text()); //运用中间件，对请求体的文本进行解析
+
 
 app.get('/get_films', (req, res) => {
     let page_index = req.query['film_index'];
@@ -42,6 +51,13 @@ app.post('/search_film', (req, res) => {
     })
 })
 
+// app.get('/', (req, res) => {
+//     res.send('Yo!')
+// })
+
+// db.get_films(1).then((items)=>{
+//     console.log(items);
+// })
 
 // app.use('/', router);
 app.listen(process.env.PORT || 9000);
