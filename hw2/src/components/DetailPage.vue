@@ -1,7 +1,7 @@
 <template>
   <div class="detail-page">
     <div class="poster">
-      <img :src="this.imgSrc">
+      <img :src="imgSrc">
     </div>
     <div class="details">
       <ul>
@@ -21,8 +21,6 @@
 <script>
 import errorImg from "../assets/imgErr.jpg";
 import service from "../services/GetService.js";
-// let mongodb = require("../mongodb.js");
-// import films from "../assets/films.json";
 
 export default {
   name: "DetailPage",
@@ -66,8 +64,13 @@ export default {
     }
   },
   created: async function() {
-    // this.film = films[this.$route.params.id];
-    this.film = await service.get_one_film(this.$route.params.id);
+    try {
+      let temp = await service.get_one_film(this.$route.params.id);
+      this.film = temp[0];
+    } catch (error) {
+      console.log(error);
+    }
+
     this.duration = "片长：" + this.film.duration + "分钟";
     this.summary = "简介：" + this.film.summary;
     this.loadImg(
@@ -116,7 +119,7 @@ export default {
           str += " / ";
         }
       }
-      return str;
+      return "类型：" + str;
     },
     pubdate: function() {
       let dates = this.film.pubdate;

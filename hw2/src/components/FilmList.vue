@@ -22,11 +22,14 @@
           :key="index.id"
           v-bind:index="index"
           v-on:jump-page="pageIndex = index.id"
-        ></jump-button> -->
+        ></jump-button>-->
         <el-pagination
-          layout='prev, pager, next'
-          v-on:jump-page="pageIndex = current-page"
-          :page-count='1000'
+          background
+          style="background-color: antiquewhite"
+          layout="prev, pager, next"
+          :current-page="pageIndex"
+          @current-change="handleCurrentChange"
+          :page-count="1000"
         ></el-pagination>
       </div>
     </div>
@@ -67,18 +70,41 @@ export default {
       return indexes;
     }
   },
-  created: function() {
-    service.get_films(this.pageIndex).then(items => {
-      console.log("in the then loop");
-      console.log("items: " + items);
-      this.films = items;
-    });
+  created: async function() {
+    // service.get_films(this.pageIndex).then(items => {
+    //   console.log("getting films when init...");
+    //   console.log("items: " + items);
+    //   this.films = items;
+    // });
+
+    try {
+      this.films = await service.get_films(this.pageIndex);
+      console.log("getting films when init...");
+    } catch (error) {
+      console.log(error);
+    }
+    
     console.log(this.films);
     this.pageCount = Math.ceil(10000 / GroupCount);
   },
   methods: {
+    handleCurrentChange: function(currentPage) {
+      console.log("page changing... " + currentPage);
+      this.pageIndex = currentPage;
+      service.get_films(this.pageIndex).then(items => {
+        console.log("getting films when page change...");
+        console.log("items: " + items);
+        this.films = items;
+      });
+    },
     seachFilm: async function() {
-      let _id = await service.search_film(this.filmToSearch);
+      let _id = null;
+      try {
+        _id = await service.search_film(this.filmToSearch);
+      } catch (error) {
+        console.log(error);
+      }
+      // let _id = await service.search_film(this.filmToSearch);
       if (_id != null) {
         this.$router.push({ name: "detail", params: { id: _id } });
       } else {
